@@ -3,12 +3,9 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link, Route, Switch, useParams } from 'react-router-dom'
 
-export function App() {
+export function PetList() {
   const [pets, setPets] = useState({})
   const [newNameText, setNewNameText] = useState('')
-  const [feedings, setFeedings] = useState()
-  const [playtimes, setPlaytimes] = useState()
-  const [scoldings, setScoldings] = useState()
 
   useEffect(async () => {
     const response = await axios.get(
@@ -16,10 +13,6 @@ export function App() {
     )
     setPets(response.data)
   }, [])
-
-  function PetPage() {
-    return <p>This would be the details of pet 1!</p>
-  }
 
   async function handleCreatePet(event) {
     event.preventDefault()
@@ -36,53 +29,101 @@ export function App() {
 
   return (
     <>
+      {Object.entries(pets).map(([petCode, petDetails]) => {
+        return (
+          <li key={petDetails.id}>
+            {petDetails.name}: Birthday: {petDetails.birthday} Hunger Level:{' '}
+            {petDetails.hungerLevel}, Happiness Level:{' '}
+            {petDetails.happinessLevel}
+          </li>
+        )
+      })}
+      <form onSubmit={handleCreatePet}>
+        <input
+          type="text"
+          placeholder="New Pet Name?"
+          value={newNameText}
+          onChange={function (event) {
+            setNewNameText(event.target.value)
+          }}
+        />
+      </form>
+    </>
+  )
+}
+
+export function PetPage() {
+  const [pet, setPet] = useState({
+    id: undefined,
+    name: '',
+  })
+  const params = useParams()
+
+  useEffect(
+    async function () {
+      const response = await axios.get(
+        `https://mandyw-tamagotchi.herokuapp.com/api/pets${params.id}`
+      )
+      setPet(response.data)
+    },
+    [params.id]
+  )
+
+  return (
+    <div>
+      <p>
+        <Link to="/">Go Home</Link>
+      </p>
+      <p>{pet.name}</p>
+      <p>{pet.birthday}</p>
+      <p>{pet.hungerLevel}</p>
+      <p>{pet.happinessLevel}</p>
+      <button>Play With the Pet</button>
+      <button>Feed the Pet</button>
+      <button>Scold the Pet</button>
+      <button>Delete Pet</button>
+    </div>
+  )
+}
+
+export function App() {
+  const [feedings, setFeedings] = useState()
+  const [playtimes, setPlaytimes] = useState()
+  const [scoldings, setScoldings] = useState()
+
+  return (
+    <>
       <header>
         <h1>Welcome to my SPA</h1>
         <nav>
           <ul>
-            {Object.entries(pets).map(([petCode, petDetails]) => {
-              return (
-                <li key={petDetails.id}>
-                  {petDetails.name}: Hunger Level: {petDetails.hungerLevel},
-                  Happiness Level: {petDetails.happinessLevel}
-                </li>
-              )
-            })}
-            <li>
+            <Switch>
+              <Route exact path="/">
+                <PetList />
+              </Route>
+              <Route exact path="/pets/:id">
+                <PetPage />
+                Page 1
+              </Route>
+              <Route exact path="/2">
+                Page 2
+              </Route>
+              <Route path="*">
+                <p>Sorry, this page is Not Found!</p>
+              </Route>
+            </Switch>
+            {/* <li>
               <Link to="/">Go Home</Link>
-            </li>
+            </li> */}
             <li>
-              <Link to="/1">Page 1</Link>
+              <Link to="/pets/id">Show</Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/2">Page 2</Link>
-            </li>
+            </li> */}
           </ul>
-          <form onSubmit={handleCreatePet}>
-            <input
-              type="text"
-              placeholder="New Pet Name?"
-              value={newNameText}
-              onChange={function (event) {
-                setNewNameText(event.target.value)
-              }}
-            />
-          </form>
         </nav>
       </header>
-      <Switch>
-        <Route exact path="/">
-          Home
-        </Route>
-        <Route exact path="/1">
-          <PetPage />
-          Page 1
-        </Route>
-        <Route exact path="/2">
-          Page 2
-        </Route>
-        <Route path="*">Not Found</Route>
-      </Switch>
     </>
   )
 }
