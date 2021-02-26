@@ -62,26 +62,34 @@ export function PetPage() {
   useEffect(
     async function () {
       const response = await axios.get(
-        `https://mandyw-tamagotchi.herokuapp.com/api/pets${params.id}`
+        `https://mandyw-tamagotchi.herokuapp.com/api/pets/${params.id}`
       )
       setPet(response.data)
     },
     [params.id]
   )
 
+  function deletePet() {
+    const response = await axios.delete(
+      `https://mandyw-tamagotchi.herokuapp.com/api/pets/${params.id}`
+    )
+
+
+  }
+
   return (
     <div>
       <p>
         <Link to="/">Go Home</Link>
       </p>
-      <p>{pet.name}</p>
-      <p>{pet.birthday}</p>
-      <p>{pet.hungerLevel}</p>
-      <p>{pet.happinessLevel}</p>
+      <p>Pet's Name: {pet.name}</p>
+      <p>Pet's Birthday: {pet.birthday}</p>
+      <p>Pet's Happiness Level: {pet.happinessLevel}</p>
+      <p>Pet's Hunger Level: {pet.hungerLevel}</p>
       <button>Play With the Pet</button>
       <button>Feed the Pet</button>
       <button>Scold the Pet</button>
-      <button>Delete Pet</button>
+      <button onClick={deletePet}>Delete Pet</button>
     </div>
   )
 }
@@ -103,7 +111,6 @@ export function App() {
               </Route>
               <Route exact path="/pets/:id">
                 <PetPage />
-                Page 1
               </Route>
               <Route exact path="/2">
                 Page 2
@@ -115,9 +122,9 @@ export function App() {
             {/* <li>
               <Link to="/">Go Home</Link>
             </li> */}
-            <li>
+            {/* <li>
               <Link to="/pets/id">Show</Link>
-            </li>
+            </li> */}
             {/* <li>
               <Link to="/2">Page 2</Link>
             </li> */}
