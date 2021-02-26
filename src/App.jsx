@@ -1,7 +1,7 @@
 //@ts-nocheck
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link, Route, Switch, useParams } from 'react-router-dom'
+import { Link, Route, Switch, useHistory, useParams } from 'react-router-dom'
 
 export function PetList() {
   const [pets, setPets] = useState({})
@@ -57,6 +57,7 @@ export function PetPage() {
     id: undefined,
     name: '',
   })
+  const history = useHistory()
   const params = useParams()
 
   useEffect(
@@ -69,12 +70,11 @@ export function PetPage() {
     [params.id]
   )
 
-  function deletePet() {
+  async function deletePet() {
     const response = await axios.delete(
       `https://mandyw-tamagotchi.herokuapp.com/api/pets/${params.id}`
     )
-
-
+    history.push('/')
   }
 
   return (
