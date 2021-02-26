@@ -10,3 +10,64 @@ body {
   margin: 0;
   min-height: 100%;
 }
+
+header {
+  background-image: url('https://www.theedgesusu.co.uk/wp-content/uploads/2019/07/marvelstudios_logo.jpg');
+  background-repeat: no-repeat;
+  background-color: black;
+  background-size: 40rem 25rem;
+  background-position: center;
+  padding: 5rem;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+  cursor: pointer;
+
+  li {
+    margin: 0.2em;
+    font-size: var(--li-font-size);
+
+    &.home {
+      justify-content: space-evenly;
+    }
+  }
+}
+
+ul li,
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+section {
+  background-image: url('https://i.pinimg.com/736x/f8/5d/c0/f85dc087a502e4fb58dbe7ee5587a372.jpg');
+  background-repeat: no-repeat;
+  background-size: 40rem;
+  height: 100vh;
+  background-position-y: bottom;
+  background-position-x: center;
+}
+
+p {
+  text-align: center;
+}
+
+article {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  background-color: blue;
+  border-radius: 30%;
+  color: white;
+}
+
+footer {
+  background-color: red;
+  text-align: center;
+  padding: 1rem;
+}

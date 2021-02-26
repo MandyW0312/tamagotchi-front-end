@@ -29,21 +29,23 @@ export function PetList() {
 
   return (
     <>
-      {Object.entries(pets).map(([petCode, petDetails]) => {
-        return (
-          <li key={petDetails.id}>
-            {petDetails.name}: Birthday: {petDetails.birthday} Hunger Level:{' '}
-            {petDetails.hungerLevel}, Happiness Level:{' '}
-            {petDetails.happinessLevel}
-            <Link to={`/pets/${petDetails.id}`}>Visit Pet</Link>
-          </li>
-        )
-      })}
+      <ul>
+        {Object.entries(pets).map(([petCode, petDetails]) => {
+          return (
+            <li className="home" key={petDetails.id}>
+              {petDetails.name}
+              <Link to={`/pets/${petDetails.id}`}>Visit Pet</Link>
+            </li>
+          )
+        })}
+      </ul>
       <form onSubmit={handleCreatePet}>
+        <label htmlFor="NewPet">Create a New Pet: </label>
         <input
           type="text"
           placeholder="New Pet Name?"
           value={newNameText}
+          name="NewPet"
           onChange={function (event) {
             setNewNameText(event.target.value)
           }}
@@ -58,9 +60,6 @@ export function PetPage() {
     id: undefined,
     name: '',
   })
-  const [feedings, setFeedings] = useState()
-  const [playtimes, setPlaytimes] = useState()
-  const [scoldings, setScoldings] = useState()
   const history = useHistory()
   const params = useParams()
 
@@ -112,19 +111,21 @@ export function PetPage() {
   }
 
   return (
-    <div>
+    <>
       <p>
         <Link to="/">Go Home</Link>
       </p>
       <p>Pet's Name: {pet.name}</p>
-      <p>Pet's Birthday: {pet.birthday}</p>
+      <p>Pet's Birthday: {pet.birthday} </p>
       <p>Pet's Happiness Level: {pet.happinessLevel}</p>
       <p>Pet's Hunger Level: {pet.hungerLevel}</p>
-      <button onClick={playtimesWithPet}>Play With the Pet</button>
-      <button onClick={feedingsThePet}>Feed the Pet</button>
-      <button onClick={scoldingsThePet}>Scold the Pet</button>
-      <button onClick={deletePet}>Delete Pet</button>
-    </div>
+      <article>
+        <button onClick={playtimesWithPet}>Play With the Pet</button>
+        <button onClick={feedingsThePet}>Feed the Pet</button>
+        <button onClick={scoldingsThePet}>Scold the Pet</button>
+        <button onClick={deletePet}>Delete Pet</button>
+      </article>
+    </>
   )
 }
 
@@ -132,26 +133,22 @@ export function App() {
   return (
     <>
       <header>
-        <h1>Welcome to my SPA</h1>
-        <nav>
-          <ul>
-            <Switch>
-              <Route exact path="/">
-                <PetList />
-              </Route>
-              <Route exact path="/pets/:id">
-                <PetPage />
-              </Route>
-              <Route exact path="/2">
-                Page 2
-              </Route>
-              <Route path="*">
-                <p>Sorry, this page is Not Found!</p>
-              </Route>
-            </Switch>
-          </ul>
-        </nav>
+        <h1></h1>
       </header>
+      <section>
+        <Switch>
+          <Route exact path="/">
+            <PetList />
+          </Route>
+          <Route exact path="/pets/:id">
+            <PetPage />
+          </Route>
+          <Route path="*">
+            <p>Sorry, this page is Not Found!</p>
+          </Route>
+        </Switch>
+      </section>
+      <footer>This Marvel Tamagotchi App was created by Mandy Wade</footer>
     </>
   )
 }
