@@ -58,6 +58,9 @@ export function PetPage() {
     id: undefined,
     name: '',
   })
+  const [feedings, setFeedings] = useState()
+  const [playtimes, setPlaytimes] = useState()
+  const [scoldings, setScoldings] = useState()
   const history = useHistory()
   const params = useParams()
 
@@ -78,6 +81,16 @@ export function PetPage() {
     history.push('/')
   }
 
+  async function playtimesWithPet() {
+    const response = await axios.post(
+      `https://mandyw-tamagotchi.herokuapp.com/api/pets/${params.id}/playtimes`
+    )
+    const refreshPetResponse = await axios.get(
+      `https://mandyw-tamagotchi.herokuapp.com/api/pets/${params.id}`
+    )
+    setPet(refreshPetResponse.data)
+  }
+
   return (
     <div>
       <p>
@@ -87,7 +100,7 @@ export function PetPage() {
       <p>Pet's Birthday: {pet.birthday}</p>
       <p>Pet's Happiness Level: {pet.happinessLevel}</p>
       <p>Pet's Hunger Level: {pet.hungerLevel}</p>
-      <button>Play With the Pet</button>
+      <button onClick={playtimesWithPet}>Play With the Pet</button>
       <button>Feed the Pet</button>
       <button>Scold the Pet</button>
       <button onClick={deletePet}>Delete Pet</button>
@@ -96,10 +109,6 @@ export function PetPage() {
 }
 
 export function App() {
-  const [feedings, setFeedings] = useState()
-  const [playtimes, setPlaytimes] = useState()
-  const [scoldings, setScoldings] = useState()
-
   return (
     <>
       <header>
@@ -120,15 +129,6 @@ export function App() {
                 <p>Sorry, this page is Not Found!</p>
               </Route>
             </Switch>
-            {/* <li>
-              <Link to="/">Go Home</Link>
-            </li> */}
-            {/* <li>
-              <Link to="/pets/id">Show</Link>
-            </li> */}
-            {/* <li>
-              <Link to="/2">Page 2</Link>
-            </li> */}
           </ul>
         </nav>
       </header>
