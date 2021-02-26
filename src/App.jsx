@@ -91,9 +91,19 @@ export function PetPage() {
     setPet(refreshPetResponse.data)
   }
 
-  async function feedingsWithPet() {
+  async function feedingsThePet() {
     const response = await axios.post(
       `https://mandyw-tamagotchi.herokuapp.com/api/pets/${params.id}/feedings`
+    )
+    const refreshPetResponse = await axios.get(
+      `https://mandyw-tamagotchi.herokuapp.com/api/pets/${params.id}`
+    )
+    setPet(refreshPetResponse.data)
+  }
+
+  async function scoldingsThePet() {
+    const response = await axios.post(
+      `https://mandyw-tamagotchi.herokuapp.com/api/pets/${params.id}/scoldings`
     )
     const refreshPetResponse = await axios.get(
       `https://mandyw-tamagotchi.herokuapp.com/api/pets/${params.id}`
@@ -111,8 +121,8 @@ export function PetPage() {
       <p>Pet's Happiness Level: {pet.happinessLevel}</p>
       <p>Pet's Hunger Level: {pet.hungerLevel}</p>
       <button onClick={playtimesWithPet}>Play With the Pet</button>
-      <button onClick={feedingsWithPet}>Feed the Pet</button>
-      <button>Scold the Pet</button>
+      <button onClick={feedingsThePet}>Feed the Pet</button>
+      <button onClick={scoldingsThePet}>Scold the Pet</button>
       <button onClick={deletePet}>Delete Pet</button>
     </div>
   )
