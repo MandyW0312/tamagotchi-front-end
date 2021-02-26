@@ -35,6 +35,7 @@ export function PetList() {
             {petDetails.name}: Birthday: {petDetails.birthday} Hunger Level:{' '}
             {petDetails.hungerLevel}, Happiness Level:{' '}
             {petDetails.happinessLevel}
+            <Link to={`/pets/${petDetails.id}`}>Visit Pet</Link>
           </li>
         )
       })}
