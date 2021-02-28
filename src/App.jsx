@@ -2,6 +2,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link, Route, Switch, useHistory, useParams } from 'react-router-dom'
+import format from 'date-fns/format'
 
 export function PetList() {
   const [pets, setPets] = useState({})
@@ -33,8 +34,7 @@ export function PetList() {
         {Object.entries(pets).map(([petCode, petDetails]) => {
           return (
             <li className="home" key={petDetails.id}>
-              {petDetails.name}
-              <Link to={`/pets/${petDetails.id}`}>Visit Pet</Link>
+              <Link to={`/pets/${petDetails.id}`}>{petDetails.name}</Link>
             </li>
           )
         })}
@@ -51,6 +51,13 @@ export function PetList() {
           }}
         />
       </form>
+      <section>
+        <img
+          src="https://i.pinimg.com/736x/f8/5d/c0/f85dc087a502e4fb58dbe7ee5587a372.jpg"
+          height="500"
+          width="500"
+        />
+      </section>
     </>
   )
 }
@@ -62,6 +69,24 @@ export function PetPage() {
   })
   const history = useHistory()
   const params = useParams()
+  const [marvelId, setMarvelId] = useState({ id: '' })
+  const [marvelImage, setMarvelImage] = useState({
+    image: {
+      url: `https://sdg-cors-proxy.herokuapp.com/suncoast/https://superheroapi.com/api/10160671863784167/${marvelId}/image`,
+    },
+  })
+
+  useEffect(
+    async function () {
+      const response = await fetch(
+        `https://sdg-cors-proxy.herokuapp.com/suncoast/https://superheroapi.com/api/10160671863784167/search/${pet.name}`
+      )
+      const json = await response.json()
+      console.log(json)
+      setMarvelId(json)
+    },
+    [pet.name]
+  )
 
   useEffect(
     async function () {
@@ -125,6 +150,9 @@ export function PetPage() {
         <button onClick={scoldingsThePet}>Scold the Pet</button>
         <button onClick={deletePet}>Delete Pet</button>
       </article>
+      <section>
+        <img src={marvelImage} width="500" height="500" />
+      </section>
     </>
   )
 }

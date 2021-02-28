@@ -27,7 +27,6 @@ ul {
 
   li {
     margin: 0.2em;
-    font-size: var(--li-font-size);
 
     &.home {
       justify-content: space-evenly;
@@ -42,13 +41,26 @@ form {
   align-items: center;
 }
 
+input {
+  line-height: 1.5em;
+  background-color: #fff;
+}
+
+a:link,
+a:visited {
+  color: black;
+  line-height: 1rem;
+}
+
 section {
-  background-image: url('https://i.pinimg.com/736x/f8/5d/c0/f85dc087a502e4fb58dbe7ee5587a372.jpg');
-  background-repeat: no-repeat;
-  background-size: 40rem;
   height: 100vh;
-  background-position-y: bottom;
-  background-position-x: center;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 
 p {
