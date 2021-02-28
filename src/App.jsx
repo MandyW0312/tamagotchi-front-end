@@ -66,24 +66,25 @@ export function PetPage() {
   const [pet, setPet] = useState({
     id: undefined,
     name: '',
+    birthday: '2001-01-01',
   })
+  const dateFormat = `MMMM do, yyyy`
+
   const history = useHistory()
   const params = useParams()
-  const [marvelId, setMarvelId] = useState({ id: '' })
-  const [marvelImage, setMarvelImage] = useState({
-    image: {
-      url: `https://sdg-cors-proxy.herokuapp.com/suncoast/https://superheroapi.com/api/10160671863784167/${marvelId}/image`,
-    },
-  })
+
+  const [marvelImage, setMarvelImage] = useState('')
 
   useEffect(
     async function () {
-      const response = await fetch(
-        `https://sdg-cors-proxy.herokuapp.com/suncoast/https://superheroapi.com/api/10160671863784167/search/${pet.name}`
-      )
-      const json = await response.json()
-      console.log(json)
-      setMarvelId(json)
+      if (pet.name) {
+        const response = await fetch(
+          `https://sdg-cors-proxy.herokuapp.com/suncoast/https://superheroapi.com/api/10160671863784167/search/${pet.name}`
+        )
+        const json = await response.json()
+        console.log(json.results[0].image.url)
+        setMarvelImage(json.results[0].image.url)
+      }
     },
     [pet.name]
   )
@@ -93,6 +94,7 @@ export function PetPage() {
       const response = await axios.get(
         `https://mandyw-tamagotchi.herokuapp.com/api/pets/${params.id}`
       )
+      console.log(response.data)
       setPet(response.data)
     },
     [params.id]
@@ -134,6 +136,9 @@ export function PetPage() {
     )
     setPet(refreshPetResponse.data)
   }
+  if (pet.id === undefined) {
+    return <div>Loading...</div>
+  }
 
   return (
     <>
@@ -141,7 +146,10 @@ export function PetPage() {
         <Link to="/">Go Home</Link>
       </p>
       <p>Pet's Name: {pet.name}</p>
-      <p>Pet's Birthday: {pet.birthday} </p>
+      <p>
+        Pet's Birthday:
+        <time>{format(new Date(pet.birthday), dateFormat)}</time>
+      </p>
       <p>Pet's Happiness Level: {pet.happinessLevel}</p>
       <p>Pet's Hunger Level: {pet.hungerLevel}</p>
       <article>
