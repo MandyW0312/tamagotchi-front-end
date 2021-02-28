@@ -53,6 +53,7 @@ export function PetList() {
       </form>
       <section>
         <img
+          className="homeImage"
           src="https://i.pinimg.com/736x/f8/5d/c0/f85dc087a502e4fb58dbe7ee5587a372.jpg"
           height="500"
           width="500"
@@ -153,13 +154,13 @@ export function PetPage() {
       <p>Pet's Happiness Level: {pet.happinessLevel}</p>
       <p>Pet's Hunger Level: {pet.hungerLevel}</p>
       <article>
-        <button onClick={playtimesWithPet}>Play With the Pet</button>
-        <button onClick={feedingsThePet}>Feed the Pet</button>
-        <button onClick={scoldingsThePet}>Scold the Pet</button>
-        <button onClick={deletePet}>Delete Pet</button>
+        <button onClick={playtimesWithPet}>Play</button>
+        <button onClick={feedingsThePet}>Feed</button>
+        <button onClick={scoldingsThePet}>Scold</button>
+        <button onClick={deletePet}>Delete</button>
       </article>
       <section>
-        <img src={marvelImage} width="500" height="500" />
+        <img className="petImage" src={marvelImage} width="300" height="300" />
       </section>
     </>
   )
